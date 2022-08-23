@@ -1,5 +1,4 @@
 const http = require('http')
-const { json } = require('stream/consumers')
 const server = http.createServer((req,res) =>{
     if(req.url === '/'){
         res.statusCode = 200
