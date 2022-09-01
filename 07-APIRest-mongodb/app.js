@@ -3,6 +3,7 @@ const cursos = require('./routes/cursos')
 const express = require('express')
 const mongoose = require('mongoose')
 
+
 mongoose.connect('mongodb://127.0.0.1:27017/demo') // Si no existe la db la crea automagicamente
     .then(()=> console.log('Conectado a mongo'))
     .catch(err => console.log('No fue posible conectarse a la DB',err))
