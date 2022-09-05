@@ -2,6 +2,7 @@ const express = require('express')
 const Curso = require('../model/curso_model')
 const ruta = express.Router()
 const joi = require('joi')
+const verificarToken = require('../middlewares/auth')
 
 const schema = joi.object({
     titulo: joi.string().min(4).required(),
@@ -10,7 +11,7 @@ const schema = joi.object({
 })
 
 
-ruta.get('/', (req, res) => {
+ruta.get('/', verificarToken ,(req, res) => {
     const listaCursos = listarCursos()
     listaCursos.then(cursos => {
         res.json(cursos)
@@ -19,7 +20,7 @@ ruta.get('/', (req, res) => {
     })
 })
 
-ruta.get('/active', (req, res) => {
+ruta.get('/active',verificarToken , (req, res) => {
     const listaCursos = listarCursosActivos()
     listaCursos.then(cursos => {
         res.json(cursos)
@@ -28,7 +29,7 @@ ruta.get('/active', (req, res) => {
     })
 })
 
-ruta.get('/inactive', (req, res) => {
+ruta.get('/inactive',verificarToken , (req, res) => {
     const listaCursos = listarCursosInactivos()
     listaCursos.then(cursos => {
         res.json(cursos)
@@ -36,7 +37,7 @@ ruta.get('/inactive', (req, res) => {
         res.status(400).send(err.details[0].message)
     })
 })
-ruta.post('/', (req, res) => {
+ruta.post('/',verificarToken , (req, res) => {
     const { error, value } = schema.validate({ titulo: req.body.titulo, descripcion: req.body.desc })
     if (!error) {
         let cursoNuevo = crearCurso(req.body)
@@ -53,7 +54,7 @@ ruta.post('/', (req, res) => {
     }
 })
 
-ruta.put('/:id', (req, res) => {
+ruta.put('/:id', verificarToken ,(req, res) => {
     const { error, value } = schema.validate({ titulo: req.body.titulo, descripcion: req.body.desc })
     if (!error) {
         const resultado = actualizarCurso(req.params.id, req.body)
@@ -67,7 +68,7 @@ ruta.put('/:id', (req, res) => {
     }
 })
 
-ruta.delete('/:id', (req, res) => {
+ruta.delete('/:id', verificarToken ,(req, res) => {
     const resultado = desactivarCurso(req.params.id)
     resultado.then(cursoEliminado => {
         res.json({ cursoEliminado })
