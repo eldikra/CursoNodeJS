@@ -17,7 +17,7 @@ const schema = Joi.object({
         .pattern(new RegExp('^[a-zA-Z0-9]{6,30}$')),
 
     email: Joi.string()
-        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ar','ch'] } })
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ar'] } })
 })
 
 
